@@ -1,0 +1,144 @@
+{% include "model-header.html" %}
+
+<link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+<script src="https://pyscript.net/latest/pyscript.js"></script>
+
+{% block content %}
+<style>
+  main {
+    margin-bottom: 100px;
+    flex: 5;
+    padding: 40px;
+  }
+
+  .chatbox {
+    height: 60vh;
+    overflow-y: auto; /* 'auto' para evitar a barra de rolagem se não necessário */
+    background-color: #1a1a1a; /* Um tom mais claro de preto para suavidade */
+    border: 1px solid #ced4da; /* Borda clara */
+    border-radius: 0.5rem; /* Aumento no arredondamento */
+    padding: 1.5rem; /* Aumento no padding para mais espaço interno */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidade */
+    transition: background-color 0.3s, border-color 0.3s; /* Transições suaves */
+  }
+  .chatbox:hover{
+    background-color: #2a2a2a; /* Cor de fundo ao passar o mouse */
+    border-color: #a6a6a6; /* Mudança na cor da borda ao passar o mouse */
+  }
+
+  .iconBot{
+    color: white;
+  }
+
+  .typing-effect {
+    font-family: Helvetica;
+    white-space: pre-wrap;
+    overflow: hidden;
+    color: #00ff00;
+    font-style: normal;
+    
+  }
+  .input {
+    border-radius: 0.5rem; /* Cantos arredondados */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 1); /* Sombra leve */
+  }
+
+  .textbox {
+    display: inline-block; /* Permite que o balão se ajuste ao conteúdo */
+    max-width: 90%; /* Limita a largura do balão */
+    padding: 10px 15px; /* Espaçamento interno */
+    margin: 10px 0; /* Margem superior e inferior */
+    color: white; /* Cor do texto */
+    border-radius: 20px; /* Cantos arredondados */
+    box-shadow: 0 10px 10px 5px rgba(0, 0, 0, 10);
+    display: flex; /* Usado para alinhar os balões */
+}
+
+.textbox::after {
+    position: absolute;
+    border-style: solid;
+    border-color: #DCDCDC ; /* Cores da seta */
+}
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: black; }
+  }
+</style>
+
+<main>
+    <div class="container mb-5">
+        <h1 class="text-center">ChatBot</h1>
+
+        <!-- Área para exibição das mensagens -->
+        <div class="chatbox border-light">
+            <div id="chat-messages">
+                <div class="iconBot">
+                <i class="fa-brands fa-android"></i></div>
+                <div class="textbox">
+                <strong><p id="intro-message" class="typing-effect"></p></strong>
+                <strong><p id="chat-response" class="typing-effect"></p></strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulário de entrada -->
+        <form action="{% url 'chatbot_submit' %}" method="POST" id="chat-form" class="mt-3">{% csrf_token %}
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" id="user-input" class="form-control" name="pergunta" placeholder="Digite sua mensagem..." required>
+                <div class="button-group">
+                <button type="submit" class="btn btn-success"><i class="fa-solid fa-microphone"></i></button>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Campo oculto para armazenar a resposta -->
+    <div id="hidden-response" style="display:none;">{{ resposta|default_if_none:'' }}</div>
+</main>
+
+<!-- PyScript para exibir o efeito de digitação -->
+<py-script>
+  from pyscript import Element
+  import asyncio
+
+  # Função para digitar a mensagem
+  async def digitar_mensagem(element_id, mensagem, velocidade=0.05):
+      elem = Element(element_id)
+      texto_atual = ""
+
+      for letra in mensagem:
+          texto_atual += letra
+          elem.element.innerHTML = texto_atual
+          await asyncio.sleep(velocidade)
+
+  # Função para exibir a mensagem inicial
+  async def exibir_intro_mensagem():
+      mensagem_inicial = "Olá, sou o Sully, assistente virtual da Comnect, como posso te ajudar? \U0001F600 \U0001F44B"
+      await digitar_mensagem("intro-message", mensagem_inicial, velocidade=0.01)
+
+  # Função para exibir a resposta
+  async def exibir_resposta(resposta):
+      if resposta.strip():
+          # Limpa a mensagem de introdução se houver resposta
+          Element("intro-message").element.innerHTML = ""
+          await digitar_mensagem("chat-response", resposta, velocidade=0.01)
+
+  # Função principal para exibir a resposta
+  def main():
+      resposta_elemento = Element("hidden-response").element
+      resposta = resposta_elemento.innerHTML.strip()  # Lê a resposta do campo oculto
+
+      if resposta:  # Se houver resposta, exibe-a
+          asyncio.ensure_future(exibir_resposta(resposta))
+      else:  # Se não houver resposta, exibe a mensagem inicial
+          asyncio.ensure_future(exibir_intro_mensagem())
+
+  main()  # Executa a função principal
+</py-script>
+
+{% endblock %}
+
+{% include "model-footer.html" %}

@@ -1,0 +1,46 @@
+{% extends "model-page.html" %}
+
+{% block content %}
+
+<style>
+.btn-rounded {
+    border-radius: 25px; /* Ajuste o valor conforme necessário */
+
+  }
+
+    .list-group{
+    border: 1px solid #ced4da; /* Borda clara */
+    border-radius: 0.5rem; /* Aumento no arredondamento */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidade */
+    }
+
+</style>
+
+    <h1 class="container mt-4" align="center">Controle de Ativos</h1><br><br>
+    <div class="container mt-4"><br><br>
+        <h3 class="mb-4">Agendamentos</h3>
+        <a href="{% url 'evento' %}">
+            <button class="btn btn-primary mb-4" type="button">Novo Evento</button>
+        </a>
+        <a href="{% url 'chatbotInterno' %}">
+            <button class="btn btn-primary mb-4" type="button">ChatBot interno</button>
+        </a>
+        <br><br>
+        <h4 class="mb-4">Eventos Registrados</h4>
+        <ul class="list-group">
+            {% if eventos %}
+                {% for evento in eventos %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <strong>Descrição:</strong>{{ evento.titulo }}<strong>Data/Hora:</strong>{{ evento.get_data_evento }}<strong>Protocolo:</strong>{{ evento.protocolo }}
+                        <span>
+                            <a href="/evento/?id={{ evento.id }}" class="btn btn-info btn-sm me-2 btn-rounded">Editar</a>
+                            <a href="/delete/{{ evento.id }}" class="btn btn-danger btn-sm btn-rounded">Excluir</a>
+                        </span>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">Não há eventos registrados no momento.</li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

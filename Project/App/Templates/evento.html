@@ -1,0 +1,57 @@
+{% extends "model-page.html" %}
+
+{% block content %}
+
+<style>
+    .custom-input {
+        width: 100%; /* Ajustar para 100% da largura do contêiner */
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #b1c8f8;
+        border-radius: 4px;
+    }
+
+    .form-container {
+        max-width: 700px; /* Definir uma largura máxima para o formulário */
+        margin: auto; /* Centralizar o formulário horizontalmente */
+    }
+
+    .form-control{
+    border: 1px solid #ced4da; /* Borda clara */
+    border-radius: 0.5rem; /* Aumento no arredondamento */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidade */
+    }
+</style><br><br>
+
+<div class="container mt-4 form-container">
+    <h2>Registros de Eventos</h2><br>
+
+    <form action="submit" method="POST">{% csrf_token %}
+        <input type="number" value="{{ evento.id }}" name="id" hidden>
+
+        <div class="mb-4">
+            <label for="title" class="form-label">Título</label>
+            <input class="form-control" type="text" name="title" id="title" placeholder="Título" value="{{ evento.titulo }}">
+        </div>
+
+        <div class="mb-4">
+            <label for="address" class="form-label">Endereço</label>
+            <input class="form-control" type="text" name="address" id="address" placeholder="Digite o Endereço do Evento" value="{{ evento.local }}">
+        </div>
+
+        <div class="mb-4">
+            <label for="datetime" class="form-label">Data Evento</label>
+            <input class="form-control" type="datetime-local" name="datetime" id="datetime" placeholder="Data Evento" value="{{ evento.get_data_input_evento }}">
+        </div>
+
+        <div class="mb-4">
+            <label for="description" class="form-label">Descrição</label>
+            <textarea class="form-control" name="description" id="description">{{ evento.descricao }}</textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <button class="btn btn-secondary ms-2" type="button" onclick="home()">Cancelar</button>
+    </form>
+</div>
+
+{% endblock %}
