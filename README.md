@@ -73,8 +73,4 @@ Antes de rodar o projeto, verifique se você tem os seguintes pré-requisitos:
    ├── /config.py               # Configuração do banco de dados e outras variáveis
    └── /README.md               # Este arquivo
 
-### Chat
-  ![image](https://github.com/sullyanoo/ChatBot/blob/main/img/interface.png)
-
-  ### Produtos
-  ![image](https://github.com/sullyanoo/ChatBot/blob/main/img/interface_menu_produtos.png)
+![image](https://github.com/sullyanoo/PortalChatBot/blob/main/Template_Comnect_ChatBot.png)
