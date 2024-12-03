@@ -1,0 +1,65 @@
+{% load static %}
+<style>
+    .footer {
+        text-align: center;
+        padding: 10px; /* Aumentar o padding para um espaço mais confortável */
+        position: fixed; /* Fixa o footer no rodapé da página */
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #f8f9fa; /* Adiciona uma cor de fundo leve para o footer */
+    }
+
+    .footer .social-links a {
+        color: #007bff; /* Cor padrão dos ícones de rede social */
+        margin: 0 10px; /* Espaçamento entre os ícones */
+        text-decoration: none; /* Remove o sublinhado dos links */
+    }
+
+    .footer .social-links a:hover {
+        color: #0056b3; /* Cor dos ícones quando o mouse passa por cima */
+    }
+
+    .footer .credits a {
+        color: #007bff; /* Cor padrão do link dos créditos */
+        text-decoration: none; /* Remove o sublinhado dos links */
+    }
+
+    .footer .credits a:hover {
+        text-decoration: underline; /* Adiciona sublinhado ao passar o mouse sobre o link */
+    }
+
+    @media (max-width: 576px) {
+        .footer {
+            padding: 15px; /* Reduz o padding em telas pequenas */
+        }
+
+        .footer .social-links {
+            margin-top: 10px; /* Adiciona margem superior em telas pequenas */
+        }
+
+        .footer .social-links a {
+            margin: 0 5px; /* Reduz o espaçamento entre os ícones em telas pequenas */
+        }
+    }
+</style>
+
+<footer id="footer" class="footer">
+    <div class="container-fluid">
+        <div class="copyright text-center">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">Comnect</strong> <span>Todos os direitos reservados</span></p>
+        </div>
+        <div class="social-links d-flex justify-content-center mt-2">
+            <a href="https://www.linkedin.com/company/wnb/mycompany/"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="http://www.comnect.com.br/"><i class="fa-brands fa-chrome"></i></a>
+        </div>
+        <div class="credits mt-2">
+            Designed by <a href="https://github.com/sullyanoo?tab=overview&from=2024-09-01&to=2024-09-30">Luciano Olegario</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Main JS File -->
+<script src="{% static 'js/main.js' %}"></script>
+<!-- Bootstrap Bundle with Popper -->
+
